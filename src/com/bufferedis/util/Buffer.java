@@ -15,12 +15,16 @@ public class Buffer {
 	public Buffer() {
 		buffer = new ArrayList<String>();
 		bufferPointer = 0;
-		bufferLimit = 10000;
+		bufferLimit = 1000;
 	}
 
 	public void add(String arg){
 		buffer.add(arg);
 		bufferPointer++;
+	}
+	
+	public long getSize(){
+		return buffer.size();
 	}
 	
 	public String[] flush(){
