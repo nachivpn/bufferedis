@@ -15,7 +15,7 @@ public class AsyncHDel implements Runnable {
 			String hash, String[] fields) {
 		this.hash = hash;
 		this.fields = fields;
-		this.redis = new Jedis(host,port);
+		this.redis = new Jedis(host, port, 0);
 		this.redis.auth(pass);
 	}
 
