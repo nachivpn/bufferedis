@@ -6,24 +6,25 @@ package com.bufferedis.util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Buffer {
+public class Buffer<T> {
 
 	/* buffer list */
-	private List <String> buffer;
+	private List <T> buffer;
 	/* points to the index of the next available block */
 	private int bufferPointer;
 	/* max buffer size */
 	private long bufferLimit;
 
 	public Buffer() {
-		buffer = new ArrayList<String>();
+		buffer = new ArrayList<T>();
 		bufferPointer = 0;
-		bufferLimit = 100000;
+		bufferLimit = 100001;
 	}
 
-	public void add(String arg){
-		buffer.add(arg);
+	public Boolean add(T arg){
+		final boolean res = buffer.add(arg);
 		bufferPointer++;
+		return res;
 	}
 
 	public long getSize(){

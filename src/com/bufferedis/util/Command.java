@@ -2,16 +2,19 @@
 Contributors: Nachi
 */
 package com.bufferedis.util;
-public abstract class Command {
 
-	private Buffer buffer = new Buffer();
+import java.util.concurrent.CompletableFuture;
+
+public abstract class Command<T> {
+
+	private Buffer<T> buffer = new Buffer<T>();
 	private String key = null;
 	private String host = null;
 	private Integer port = null;
 	private String pass = null;
-	
-	protected abstract void customFlush();
-	
+
+	protected abstract <T> CompletableFuture<T> customFlush();
+
 	public Command(String host, Integer port, String pass, String key){
 		this.setHost(host);
 		this.setPort(port);
@@ -25,14 +28,15 @@ public abstract class Command {
 		this.setPass(pass);
 	}
 
-	public void exec(){
-		customFlush();
+	public <T> CompletableFuture<T> exec(){
+		return customFlush();
 	}
 	
-	public void add(String field){
+	public Boolean add(String field){
 		if(getBuffer().overflow())
 			customFlush();
-		getBuffer().add(field);
+
+		return getBuffer().add(field);
 	}
 
 	/**
