@@ -5,24 +5,31 @@ package com.bufferedis.core;
 
 import com.bufferedis.async.AsyncSet;
 import com.bufferedis.util.Command;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
 
-public class Set extends Command{
+public class Set extends Command {
 
 	public Set(String host, Integer port, String pass){
 		super(host, port, pass);
 	}
 
-	public void customFlush(){
-		String[] result = getBuffer().flush();
-		AsyncSet runner = new AsyncSet(getHost(), getPort(), getPass(), result);
-		new Thread(runner).start();
+	public CompletableFuture<String> customFlush(){
+		return CompletableFuture.supplyAsync(
+				new AsyncSet(
+						getHost(),
+						getPort(),
+						getPass(),
+						getBuffer().flush()
+				),
+                Executors.newCachedThreadPool()
+		);
 	}
 	
-	public void add(String key, String value){
+	public Boolean add(String key, String value){
 		if(getBuffer().pairedOverflow())
 			customFlush();
-		getBuffer().add(key);
-		getBuffer().add(value);
+		return getBuffer().add(key) && getBuffer().add(value);
 	}
 
 }
