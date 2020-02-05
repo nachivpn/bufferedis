@@ -19,7 +19,9 @@ for (Map.Entry<String, String> entry : everGrowingHashMap.entrySet()){
 	String value = entry.getValue();
 	setBufferedis.add(key, value);
 }
-setBufferedis.exec();
+
+final CompletableFuture<String> resAsync = setBufferedis.exec();
+final String res = resAsync.get();
 ```
 
 Del
@@ -28,8 +30,9 @@ Del
 Del delBufferedis = new Del("host", 6379, "password");
 for(String key : everGrowingKeysArray)
 	delBufferedis.add(key);
-delBufferedis.exec();
-```
+ 
+final CompletableFuture<Long> resAsync = delBufferedis.exec();
+final Long res = resAsync.get();```
 
 HDel
 ----
@@ -37,7 +40,9 @@ HDel
 HDel hdelBufferedis = new HDel("host", 6379, "password", "hash");
 for(String field : everGrowingFieldArray)
 	hdelBufferedis.add(field);
-hdelBufferedis.exec();
+
+final CompletableFuture<Long> resAsync = hDelBufferedis.exec();
+final Long res = resAsync.get();
 ```
 
 Benchmark
