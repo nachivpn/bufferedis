@@ -32,7 +32,8 @@ for(String key : everGrowingKeysArray)
 	delBufferedis.add(key);
  
 final CompletableFuture<Long> resAsync = delBufferedis.exec();
-final Long res = resAsync.get();```
+final Long res = resAsync.get();
+```
 
 HDel
 ----
@@ -57,3 +58,4 @@ Limitations
 Contact
 -------
 nachivpn@gmail.com
+@vicboma1
